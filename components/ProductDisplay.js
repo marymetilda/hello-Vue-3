@@ -6,8 +6,8 @@ app.component("product-display", {
     },
   },
   template:
-    /*html */
-    ` <div class="product-display">
+    /*html*/
+    `<div class="product-display">
       <div class="product-container">
         <div class="product-image">
           <img v-bind:src="image">
@@ -18,7 +18,7 @@ app.component("product-display", {
           <p v-if="inStock">In Stock</p>
           <p v-else>Out of Stock</p>
   
-          <p>Shipping: {{shipping}}</p>
+          <p>Shipping: {{ shipping }}</p>
           <ul>
             <li v-for="detail in details">{{ detail }}</li>
           </ul>
@@ -31,9 +31,18 @@ app.component("product-display", {
             :style="{ backgroundColor: variant.color }">
           </div>
           
-          <button class="button" :class="{ disabledButton: !inStock }" :disabled="!inStock" v-on:click="addToCart">Add to Cart</button>
+          <button 
+            class="button" 
+            :class="{ disabledButton: !inStock }" 
+            :disabled="!inStock" 
+            v-on:click="addToCart">
+            Add to Cart
+          </button>
+  
         </div>
       </div>
+      <review-list v-if="reviews.length" :reviews="reviews"></review-list>
+      <review-form @review-submitted="addReview"></review-form>
     </div>`,
   data() {
     return {
@@ -55,14 +64,18 @@ app.component("product-display", {
           quantity: 0,
         },
       ],
+      reviews: [],
     };
   },
   methods: {
     addToCart() {
-      this.cart += 1;
+      this.$emit("add-to-cart", this.variants[this.selectedVariant].id);
     },
     updateVariant(index) {
       this.selectedVariant = index;
+    },
+    addReview(review) {
+      this.reviews.push(review);
     },
   },
   computed: {
