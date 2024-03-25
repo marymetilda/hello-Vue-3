@@ -1,8 +1,10 @@
 const app = Vue.createApp({
     data() {
       return {
-        product: "Boots",
-        productDescription: 'Excellent quality boots'
+        product: "Socks",
+        image: "./assets/images/socks_blue.jpg",
+        inventory: 0,
+        onSale: false,
       };
     },
   });
